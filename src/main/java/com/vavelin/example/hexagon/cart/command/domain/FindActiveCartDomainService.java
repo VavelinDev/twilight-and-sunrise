@@ -1,4 +1,4 @@
-package com.vavelin.example.hexagon.cart.command.domain.domain;
+package com.vavelin.example.hexagon.cart.command.domain;
 
 import com.vavelin.shared.stereotypes.DomainService;
 

@@ -1,7 +1,7 @@
 package com.vavelin.example.hexagon.cart.command.usecase;
 
-import com.vavelin.example.hexagon.cart.command.domain.domain.Cart;
-import com.vavelin.example.hexagon.cart.command.domain.domain.FindActiveCartDomainService;
+import com.vavelin.example.hexagon.cart.command.domain.Cart;
+import com.vavelin.example.hexagon.cart.command.domain.FindActiveCartDomainService;
 import com.vavelin.shared.cqrs.command.AbstractCommandHandler;
 import com.vavelin.shared.stereotypes.CommandHandler;
 import org.springframework.beans.factory.annotation.Autowired;
