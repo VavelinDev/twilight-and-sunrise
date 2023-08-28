@@ -1,4 +1,4 @@
-package com.vavelin.shared.exceptions;
+package com.vavelin.example.hexagon.shared.exceptions;
 
 /**
  * All the application's internal errors.

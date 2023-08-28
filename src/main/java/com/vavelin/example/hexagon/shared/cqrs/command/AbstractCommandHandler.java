@@ -1,6 +1,6 @@
-package com.vavelin.shared.cqrs.command;
+package com.vavelin.example.hexagon.shared.cqrs.command;
 
-import com.vavelin.shared.exceptions.ApplicationRuntimeException;
+import com.vavelin.example.hexagon.shared.exceptions.ApplicationRuntimeException;
 import java.lang.reflect.ParameterizedType;
 import java.util.function.Consumer;
 import org.slf4j.Logger;

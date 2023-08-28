@@ -1,4 +1,4 @@
-package com.vavelin.shared.exceptions;
+package com.vavelin.example.hexagon.shared.exceptions;
 
 /**
  * The most base class for all application's exceptions.

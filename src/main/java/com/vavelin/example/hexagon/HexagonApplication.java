@@ -1,9 +1,9 @@
 package com.vavelin.example.hexagon;
 
-import com.vavelin.shared.cqrs.command.AbstractCommandHandler;
-import com.vavelin.shared.cqrs.command.Command;
-import com.vavelin.shared.cqrs.command.CommandBus;
-import com.vavelin.shared.cqrs.command.SyncCommandBus;
+import com.vavelin.example.hexagon.shared.cqrs.command.AbstractCommandHandler;
+import com.vavelin.example.hexagon.shared.cqrs.command.Command;
+import com.vavelin.example.hexagon.shared.cqrs.command.CommandBus;
+import com.vavelin.example.hexagon.shared.cqrs.command.SyncCommandBus;
 import java.util.Collection;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

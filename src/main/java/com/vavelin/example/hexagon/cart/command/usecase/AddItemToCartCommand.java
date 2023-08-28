@@ -1,6 +1,6 @@
 package com.vavelin.example.hexagon.cart.command.usecase;
 
-import com.vavelin.shared.cqrs.command.Command;
+import com.vavelin.example.hexagon.shared.cqrs.command.Command;
 
 public record AddItemToCartCommand(
     Long cartId,

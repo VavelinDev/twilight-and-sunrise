@@ -1,4 +1,4 @@
-package com.vavelin.shared.stereotypes;
+package com.vavelin.example.hexagon.shared.stereotypes;
 
 
 import java.lang.annotation.Documented;

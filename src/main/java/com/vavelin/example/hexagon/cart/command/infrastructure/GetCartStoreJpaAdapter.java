@@ -2,9 +2,9 @@ package com.vavelin.example.hexagon.cart.command.infrastructure;
 
 import com.vavelin.example.hexagon.cart.command.domain.Cart;
 import com.vavelin.example.hexagon.cart.command.domain.GetCartStorePort;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
-@Component
+@Repository
 public class GetCartStoreJpaAdapter implements GetCartStorePort {
     @Override
     public Cart get(Long cartId) {

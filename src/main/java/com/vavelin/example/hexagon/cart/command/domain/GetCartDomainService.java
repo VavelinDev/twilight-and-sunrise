@@ -1,7 +1,7 @@
 package com.vavelin.example.hexagon.cart.command.domain;
 
-import com.vavelin.shared.exceptions.ResourceNotFoundException;
-import com.vavelin.shared.stereotypes.DomainService;
+import com.vavelin.example.hexagon.shared.exceptions.ResourceNotFoundException;
+import com.vavelin.example.hexagon.shared.stereotypes.DomainService;
 
 @DomainService
 public class GetCartDomainService {

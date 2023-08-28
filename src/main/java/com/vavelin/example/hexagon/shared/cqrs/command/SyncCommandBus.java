@@ -1,8 +1,8 @@
-package com.vavelin.shared.cqrs.command;
+package com.vavelin.example.hexagon.shared.cqrs.command;
 
 import static java.util.Objects.requireNonNull;
 
-import com.vavelin.shared.exceptions.InternalErrorException;
+import com.vavelin.example.hexagon.shared.exceptions.InternalErrorException;
 import java.util.Collection;
 import java.util.Map;
 import java.util.stream.Collectors;
