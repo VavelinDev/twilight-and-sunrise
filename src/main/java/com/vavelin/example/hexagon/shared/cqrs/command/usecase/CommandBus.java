@@ -1,4 +1,4 @@
-package com.vavelin.example.hexagon.shared.cqrs.command;
+package com.vavelin.example.hexagon.shared.cqrs.command.usecase;
 
 /**
  * Represents an interface for command bus. Command Bus are responsible for dispatching commands

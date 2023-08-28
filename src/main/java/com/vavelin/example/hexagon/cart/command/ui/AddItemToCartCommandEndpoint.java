@@ -1,7 +1,7 @@
 package com.vavelin.example.hexagon.cart.command.ui;
 
 import com.vavelin.example.hexagon.cart.command.usecase.AddItemToCartCommand;
-import com.vavelin.example.hexagon.shared.cqrs.command.CommandBus;
+import com.vavelin.example.hexagon.shared.cqrs.command.usecase.CommandBus;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;

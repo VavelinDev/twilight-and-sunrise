@@ -1,4 +1,4 @@
-package com.vavelin.example.hexagon.shared.cqrs.command;
+package com.vavelin.example.hexagon.shared.cqrs.command.usecase;
 
 import com.vavelin.example.hexagon.shared.exceptions.ApplicationRuntimeException;
 import java.lang.reflect.ParameterizedType;

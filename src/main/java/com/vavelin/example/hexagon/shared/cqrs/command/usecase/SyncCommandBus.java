@@ -1,4 +1,4 @@
-package com.vavelin.example.hexagon.shared.cqrs.command;
+package com.vavelin.example.hexagon.shared.cqrs.command.usecase;
 
 import static java.util.Objects.requireNonNull;
 
