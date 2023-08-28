@@ -1,4 +1,4 @@
-package com.vavelin.example.hexagon.cart.command.infrastructure;
+package com.vavelin.example.hexagon.cart.command.infrastructure.jpa;
 
 import com.vavelin.example.hexagon.cart.command.domain.Cart;
 import com.vavelin.example.hexagon.cart.command.domain.GetCartStorePort;
