@@ -8,10 +8,26 @@ import java.util.Set;
  */
 public class Cart {
 
+    private final Long id;
+
+    private boolean active = true;
+
     private final Set<CartItem> items = new HashSet<>();
+
+    public Cart(Long id) {
+        this.id = id;
+    }
+
+    public Long getId() {
+        return id;
+    }
 
     public void addItem(CartItem item) {
         items.add(item);
+    }
+
+    public boolean isActive() {
+        return active;
     }
 
     public record CartItem(
