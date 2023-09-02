@@ -1,8 +1,8 @@
 plugins {
     java
     groovy
-    id("org.springframework.boot") version "3.1.2"
-    id("io.spring.dependency-management") version "1.1.2"
+    id("org.springframework.boot") version "3.1.3"
+    id("io.spring.dependency-management") version "1.1.3"
 }
 
 group = "com.vavelin.example"

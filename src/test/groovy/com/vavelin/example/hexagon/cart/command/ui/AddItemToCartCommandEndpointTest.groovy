@@ -19,19 +19,24 @@ class AddItemToCartCommandEndpointTest extends Specification {
     private int port
 
     @Autowired
-    private TestRestTemplate restTemplate;
+    private TestRestTemplate restTemplate
 
     private String validCartUrl
 
     void setup() {
-        validCartUrl = "http://localhost:" + port + "/carts/10"
+        validCartUrl = testUrl("/carts/10")
     }
 
     def "Successfully add a valid product to the existing cart"() {
         when:
-        def result = restTemplate.put(validCartUrl, VALID_PAYLOAD)
+        restTemplate.put(validCartUrl, VALID_PAYLOAD)
 
         then:
         noExceptionThrown()
     }
+
+    def testUrl(String uri) {
+        return "http://localhost:" + port + uri
+    }
+
 }
