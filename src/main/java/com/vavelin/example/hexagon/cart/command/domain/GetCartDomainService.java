@@ -1,7 +1,7 @@
 package com.vavelin.example.hexagon.cart.command.domain;
 
 import com.vavelin.example.hexagon.shared.exceptions.ResourceNotFoundException;
-import com.vavelin.example.hexagon.shared.stereotypes.DomainService;
+import com.vavelin.example.hexagon.spring.stereotypes.DomainService;
 
 @DomainService
 public class GetCartDomainService {
@@ -15,7 +15,7 @@ public class GetCartDomainService {
     public Cart get(Long cartId) {
         Cart cart = getCartStorePort.get(cartId);
         if (!cart.isActive()) {
-            throw new ResourceNotFoundException("Cart not found or is inactive");
+            throw new ResourceNotFoundException("Cart is inactive. Cart id=" + cart.getId());
         }
         return cart;
     }

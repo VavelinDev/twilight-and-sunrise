@@ -2,12 +2,13 @@ package com.vavelin.example.hexagon.cart.command.usecase;
 
 import com.vavelin.example.hexagon.cart.command.domain.Cart;
 import com.vavelin.example.hexagon.cart.command.domain.GetCartDomainService;
-import com.vavelin.example.hexagon.shared.cqrs.command.usecase.AbstractCommandHandler;
-import com.vavelin.example.hexagon.shared.stereotypes.CommandHandler;
+import com.vavelin.example.hexagon.shared.cqrs.command.CommandHandler;
+import com.vavelin.example.hexagon.spring.stereotypes.CommandHandlerService;
 import org.springframework.beans.factory.annotation.Autowired;
 
-@CommandHandler
-public class AddItemToCartCommandHandler extends AbstractCommandHandler<AddItemToCartCommand> {
+@CommandHandlerService
+public class AddItemToCartCommandHandler implements
+    CommandHandler<AddItemToCartCommand> {
 
     private final GetCartDomainService getCartDomainService;
 
@@ -17,9 +18,9 @@ public class AddItemToCartCommandHandler extends AbstractCommandHandler<AddItemT
     }
 
     @Override
-    protected void handle(AddItemToCartCommand addItemToCartCommand) {
-        Long cartId = addItemToCartCommand.cartId();
-        Long productId = addItemToCartCommand.productId();
+    public void handle(AddItemToCartCommand command) {
+        Long cartId = command.cartId();
+        Long productId = command.productId();
 
         Cart cart = getCartDomainService.get(cartId);
         Cart.CartItem cartItem = new Cart.CartItem(productId);

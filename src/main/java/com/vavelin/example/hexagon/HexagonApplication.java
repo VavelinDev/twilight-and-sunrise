@@ -1,9 +1,9 @@
 package com.vavelin.example.hexagon;
 
-import com.vavelin.example.hexagon.shared.cqrs.command.usecase.AbstractCommandHandler;
-import com.vavelin.example.hexagon.shared.cqrs.command.usecase.Command;
-import com.vavelin.example.hexagon.shared.cqrs.command.usecase.CommandBus;
-import com.vavelin.example.hexagon.shared.cqrs.command.usecase.SyncCommandBus;
+import com.vavelin.example.hexagon.shared.cqrs.command.Command;
+import com.vavelin.example.hexagon.shared.cqrs.command.CommandBus;
+import com.vavelin.example.hexagon.shared.cqrs.command.CommandHandler;
+import com.vavelin.example.hexagon.shared.cqrs.command.SyncCommandBus;
 import java.util.Collection;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -24,9 +24,9 @@ public class HexagonApplication {
 
         @Bean
         public CommandBus commandBus(
-            Collection<? extends AbstractCommandHandler<? extends Command>> commandHandlers) {
-            return new SyncCommandBus(
-                (Collection<AbstractCommandHandler<Command>>) commandHandlers);
+            Collection<? extends CommandHandler<? extends Command>> commandHandlers
+        ) {
+            return new SyncCommandBus((Collection<CommandHandler<Command>>) commandHandlers);
         }
 
         @Bean
