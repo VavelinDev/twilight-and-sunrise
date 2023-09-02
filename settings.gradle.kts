@@ -1,1 +1,1 @@
-rootProject.name = "example-hexagon-cqrs-ddd"
+rootProject.name = "twilight-shop"
