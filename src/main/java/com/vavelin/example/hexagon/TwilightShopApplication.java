@@ -13,10 +13,10 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
 
 @SpringBootApplication
-public class HexagonApplication {
+public class TwilightShopApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(HexagonApplication.class, args);
+        SpringApplication.run(TwilightShopApplication.class, args);
     }
 
     @Configuration
