@@ -1,12 +1,13 @@
 package com.vavelin.twilight.shop.cart.command.domain;
 
 import com.vavelin.twilight.shop.shared.valueobjects.Price;
+import com.vavelin.twilight.shop.spring.stereotypes.DomainService;
 import com.vavelin.twilight.shop.spring.stereotypes.Policy;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-@Policy
+@DomainService
 class CartPriceDomainService {
 
     private final GetNewestPriceListPort getNewestPriceListPort;
