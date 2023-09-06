@@ -1,7 +1,7 @@
 package com.vavelin.example.hexagon.cart.command.infrastructure.jpa;
 
 import com.vavelin.example.hexagon.cart.command.domain.GetNewestPriceListPort;
-import com.vavelin.example.hexagon.shared.domain.vo.Price;
+import com.vavelin.example.hexagon.shared.valueobjects.Price;
 import com.vavelin.example.hexagon.spring.stereotypes.Adapter;
 import java.math.BigDecimal;
 import java.util.Map;

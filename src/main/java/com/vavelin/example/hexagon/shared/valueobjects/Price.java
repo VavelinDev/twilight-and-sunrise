@@ -1,4 +1,4 @@
-package com.vavelin.example.hexagon.shared.domain.vo;
+package com.vavelin.example.hexagon.shared.valueobjects;
 
 import java.math.BigDecimal;
 

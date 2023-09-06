@@ -1,6 +1,6 @@
 package com.vavelin.example.hexagon.cart.command.domain;
 
-import com.vavelin.example.hexagon.shared.domain.vo.Price;
+import com.vavelin.example.hexagon.shared.valueobjects.Price;
 import java.util.Map;
 
 public interface GetNewestPriceListPort {
