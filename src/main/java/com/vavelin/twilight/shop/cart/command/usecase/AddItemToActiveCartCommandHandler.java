@@ -10,13 +10,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class AddItemToActiveCartCommandHandler implements
     CommandHandler<AddItemToActiveCartCommand> {
 
-    private final CartRepositoryPort cartRepository;
+    private final GetActiveCartPort getActiveCartPort;
+    private final PersistCartPort persistCartPort;
     private final CartFactory cartFactory;
 
     @Autowired
-    public AddItemToActiveCartCommandHandler(CartRepositoryPort cartRepository,
+    public AddItemToActiveCartCommandHandler(GetActiveCartPort getActiveCartPort,
+                                             PersistCartPort persistCartPort,
                                              CartFactory cartFactory) {
-        this.cartRepository = cartRepository;
+        this.getActiveCartPort = getActiveCartPort;
+        this.persistCartPort = persistCartPort;
         this.cartFactory = cartFactory;
     }
 
@@ -27,10 +30,11 @@ public class AddItemToActiveCartCommandHandler implements
         final int quantity = command.quantity();
 
         final Cart loadedCart =
-            cartRepository.getActiveCart(username).orElseGet(() -> cartFactory.newCart(username));
+            getActiveCartPort.getActiveCart(username)
+                .orElseGet(() -> cartFactory.newCart(username));
 
         final Cart updatedCart = loadedCart.addProductToCart(productId, quantity);
 
-        cartRepository.saveCart(updatedCart);
+        persistCartPort.saveCart(updatedCart);
     }
 }

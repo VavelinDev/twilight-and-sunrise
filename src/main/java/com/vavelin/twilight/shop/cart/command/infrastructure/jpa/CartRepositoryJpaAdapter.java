@@ -2,13 +2,14 @@ package com.vavelin.twilight.shop.cart.command.infrastructure.jpa;
 
 import com.vavelin.twilight.shop.cart.command.domain.Cart;
 import com.vavelin.twilight.shop.cart.command.domain.CartFactory;
-import com.vavelin.twilight.shop.cart.command.usecase.CartRepositoryPort;
+import com.vavelin.twilight.shop.cart.command.usecase.GetActiveCartPort;
+import com.vavelin.twilight.shop.cart.command.usecase.PersistCartPort;
 import com.vavelin.twilight.shop.spring.stereotypes.Adapter;
 import java.util.HashSet;
 import java.util.Optional;
 
 @Adapter
-public class CartRepositoryJpaAdapter implements CartRepositoryPort {
+public class CartRepositoryJpaAdapter implements GetActiveCartPort, PersistCartPort {
     private final CartFactory cartFactory;
     private final CartCrudRepository cartCrudRepository;
 
