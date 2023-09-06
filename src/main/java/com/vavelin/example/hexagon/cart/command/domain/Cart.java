@@ -1,6 +1,5 @@
 package com.vavelin.example.hexagon.cart.command.domain;
 
-import com.vavelin.example.hexagon.shared.ddd.DomainPolicy;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -25,19 +24,15 @@ public final class Cart {
 
     private final Map<Long, CartItem> cartItems;
 
-    private final DomainPolicy<Cart, CartPrice> cartPricePolicy;
-
-    Cart(long id, String username, DomainPolicy<Cart, CartPrice> cartPricePolicy) {
-        this(id, username, Collections.emptySet(), cartPricePolicy);
+    Cart(long id, String username) {
+        this(id, username, Collections.emptySet());
     }
 
     Cart(long id,
          String username,
-         Collection<CartItem> cartItems,
-         DomainPolicy<Cart, CartPrice> cartPricePolicy) {
+         Collection<CartItem> cartItems) {
         this.id = id;
         this.username = username;
-        this.cartPricePolicy = cartPricePolicy;
         this.cartItems = Map.copyOf(cartItems.stream()
             .collect(Collectors.toMap(CartItem::productId, Function.identity()))
         );
@@ -60,7 +55,7 @@ public final class Cart {
                 newCartItems.put(cartItemEntry.getKey(), cartItemEntry.getValue());
             }
         }
-        return new Cart(id, username, newCartItems.values(), cartPricePolicy);
+        return new Cart(id, username, newCartItems.values());
     }
 
     public Optional<CartItem> getItem(Long productId) {
