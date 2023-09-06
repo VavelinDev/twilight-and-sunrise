@@ -6,7 +6,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CartCrudRepository extends CrudRepository<CartJpa, Long> {
+interface CartCrudRepository extends CrudRepository<CartJpa, Long> {
 
     Optional<CartJpa> findByUsernameAndActiveIsTrue(@Param("username") String username);
 
