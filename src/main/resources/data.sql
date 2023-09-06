@@ -1,0 +1,1 @@
+insert into cart (id, username, active) values (1, 'admin', 1);

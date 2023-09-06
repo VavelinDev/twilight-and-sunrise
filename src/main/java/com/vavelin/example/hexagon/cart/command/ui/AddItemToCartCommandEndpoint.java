@@ -1,13 +1,14 @@
 package com.vavelin.example.hexagon.cart.command.ui;
 
-import com.vavelin.example.hexagon.cart.command.usecase.AddItemToCartCommand;
+import com.vavelin.example.hexagon.cart.command.usecase.AddItemToActiveCartCommand;
 import com.vavelin.example.hexagon.shared.cqrs.command.CommandBus;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,8 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @Validated
-@RequestMapping("/carts")
+@RequestMapping(AddItemToCartCommandEndpoint.PATH)
 public class AddItemToCartCommandEndpoint {
+    public static final String PATH = "/carts/active";
 
     private final CommandBus commandBus;
 
@@ -25,21 +27,23 @@ public class AddItemToCartCommandEndpoint {
         this.commandBus = commandBus;
     }
 
-    @PutMapping("/{cartId}")
-    public void handle(
-        @PathVariable("cartId") @Positive Long cartId,
-        @Valid @RequestBody AddItemToCartCommandPayload payload
-    ) {
-        var cartCommand = payload.toCommandForCartId(cartId);
+    @PutMapping
+    public void handle(@Valid @RequestBody AddItemToCartCommandPayload payload,
+                       @AuthenticationPrincipal UserDetails userDetails) {
+        var username = userDetails.getUsername();
+        var cartCommand = payload.toCommand(username);
         commandBus.dispatch(cartCommand);
     }
 
     public record AddItemToCartCommandPayload(
         @NotNull
-        Long productId
+        Long productId,
+        @NotNull
+        @Positive
+        Integer quantity
     ) {
-        AddItemToCartCommand toCommandForCartId(Long cartId) {
-            return new AddItemToCartCommand(cartId, productId);
+        AddItemToActiveCartCommand toCommand(String username) {
+            return new AddItemToActiveCartCommand(username, productId, quantity);
         }
     }
 
