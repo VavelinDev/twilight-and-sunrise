@@ -30,7 +30,7 @@ class AddItemToActiveCartCommandEndpointTest extends Specification {
     private String validCartUrl;
 
     def setup() {
-        validCartUrl = testUrl(AddItemToCartCommandEndpoint.PATH)
+        validCartUrl = testUrl(AddItemToActiveCartCommandEndpoint.PATH)
         restTemplate = new TestRestTemplate("admin", "admin")
     }
 

@@ -18,26 +18,27 @@ import org.springframework.web.bind.annotation.RestController;
 @InputAdapter
 @RestController
 @Validated
-@RequestMapping(AddItemToCartCommandEndpoint.PATH)
-public class AddItemToCartCommandEndpoint {
+@RequestMapping(AddItemToActiveCartCommandEndpoint.PATH)
+public class AddItemToActiveCartCommandEndpoint {
     public static final String PATH = "/carts/active";
 
     private final CommandBus commandBus;
 
     @Autowired
-    public AddItemToCartCommandEndpoint(CommandBus commandBus) {
+    public AddItemToActiveCartCommandEndpoint(CommandBus commandBus) {
         this.commandBus = commandBus;
     }
 
     @PutMapping
-    public void handle(@Valid @RequestBody AddItemToCartCommandPayload payload,
+    public void handle(@Valid @RequestBody
+                       AddItemToActiveCartCommandEndpoint.AddItemToActiveCartCommandPayload payload,
                        @AuthenticationPrincipal UserDetails userDetails) {
         var username = userDetails.getUsername();
         var cartCommand = payload.toCommand(username);
         commandBus.dispatch(cartCommand);
     }
 
-    public record AddItemToCartCommandPayload(
+    public record AddItemToActiveCartCommandPayload(
         @NotNull
         Long productId,
         @NotNull
