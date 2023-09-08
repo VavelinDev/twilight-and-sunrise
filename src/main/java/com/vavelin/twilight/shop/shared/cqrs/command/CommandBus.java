@@ -4,6 +4,7 @@ package com.vavelin.twilight.shop.shared.cqrs.command;
  * Represents an interface for command bus. Command Bus are responsible for dispatching commands
  * to the appropriate handler.
  */
+@FunctionalInterface
 public interface CommandBus {
 
     /**

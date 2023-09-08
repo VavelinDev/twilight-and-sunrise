@@ -24,17 +24,17 @@ public class AddItemToActiveCartCommandHandler implements
     }
 
     @Override
-    public void handle(AddItemToActiveCartCommand command) {
+    public void accept(AddItemToActiveCartCommand command) {
         final String username = command.username();
         final Long productId = command.productId();
         final int quantity = command.quantity();
 
         final Cart loadedCart =
-            getActiveCartPort.getActiveCart(username)
+            getActiveCartPort.apply(username)
                 .orElseGet(() -> cartFactory.newCart(username));
 
         final Cart updatedCart = loadedCart.addProductToCart(productId, quantity);
 
-        persistCartPort.saveCart(updatedCart);
+        persistCartPort.accept(updatedCart);
     }
 }

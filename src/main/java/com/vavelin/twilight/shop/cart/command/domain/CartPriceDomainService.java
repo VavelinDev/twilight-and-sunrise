@@ -2,7 +2,6 @@ package com.vavelin.twilight.shop.cart.command.domain;
 
 import com.vavelin.twilight.shop.shared.valueobjects.Price;
 import com.vavelin.twilight.shop.spring.stereotypes.DomainService;
-import com.vavelin.twilight.shop.spring.stereotypes.Policy;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -23,7 +22,7 @@ class CartPriceDomainService {
      * @return the calculated cart price
      */
     public CartPrice apply(Cart cart) {
-        GetNewestPriceListPort.PriceList priceList = getNewestPriceListPort.getNewest();
+        GetNewestPriceListPort.PriceList priceList = getNewestPriceListPort.get();
 
         Map<Cart.CartItem, Price> priceCartItemMap =
             cart.getCartItems().stream().collect(Collectors.toMap(

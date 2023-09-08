@@ -49,7 +49,7 @@ public class SyncCommandBus implements CommandBus {
 
         try {
             logger.debug("Handling command [begin]: {}", command);
-            handlerRegistry.get(commandType).handle(command);
+            handlerRegistry.get(commandType).accept(command);
             logger.debug("Handling command [finish]: {}", command);
         } catch (RuntimeException e) {
             throw new CommandHandlerException("Handling command [failure]: " + command, e);

@@ -2,9 +2,11 @@ package com.vavelin.twilight.shop.cart.command.domain;
 
 import com.vavelin.twilight.shop.shared.valueobjects.Price;
 import java.util.Map;
+import java.util.function.Supplier;
 
-public interface GetNewestPriceListPort {
-    PriceList getNewest();
+@FunctionalInterface
+public interface GetNewestPriceListPort extends Supplier<GetNewestPriceListPort.PriceList> {
+    PriceList get();
 
     record PriceList(Map<Long, Price> priceByProduct) {
         public PriceList {

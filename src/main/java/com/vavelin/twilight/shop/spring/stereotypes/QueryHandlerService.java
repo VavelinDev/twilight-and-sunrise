@@ -8,9 +8,12 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import org.springframework.stereotype.Service;
 
+/**
+ * Stereotypes for Application Services = Query Handlers.
+ */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Service
-public @interface Factory {
+public @interface QueryHandlerService {
 }

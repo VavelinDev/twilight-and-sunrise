@@ -4,11 +4,11 @@ import com.vavelin.twilight.shop.cart.command.domain.Cart;
 import com.vavelin.twilight.shop.cart.command.domain.CartFactory;
 import com.vavelin.twilight.shop.cart.command.usecase.GetActiveCartPort;
 import com.vavelin.twilight.shop.cart.command.usecase.PersistCartPort;
-import com.vavelin.twilight.shop.spring.stereotypes.Adapter;
+import com.vavelin.twilight.shop.spring.stereotypes.OutputAdapter;
 import java.util.HashSet;
 import java.util.Optional;
 
-@Adapter
+@OutputAdapter
 public class CartRepositoryJpaAdapter implements GetActiveCartPort, PersistCartPort {
     private final CartFactory cartFactory;
     private final CartCrudRepository cartCrudRepository;
@@ -20,7 +20,7 @@ public class CartRepositoryJpaAdapter implements GetActiveCartPort, PersistCartP
     }
 
     @Override
-    public Optional<Cart> getActiveCart(String username) {
+    public Optional<Cart> apply(String username) {
         Optional<CartJpa> optionalCartJpa =
             cartCrudRepository.findByUsernameAndActiveIsTrue(username);
 
@@ -34,7 +34,7 @@ public class CartRepositoryJpaAdapter implements GetActiveCartPort, PersistCartP
     }
 
     @Override
-    public void saveCart(Cart cart) {
+    public void accept(Cart cart) {
         CartJpa cartJpa = new CartJpa();
         cartJpa.id = cart.getId();
         cartJpa.username = cart.getUsername();

@@ -1,8 +1,8 @@
 package com.vavelin.twilight.shop.cart.command.domain;
 
-import com.vavelin.twilight.shop.spring.stereotypes.Factory;
+import com.vavelin.twilight.shop.spring.stereotypes.AggregateFactory;
 
-@Factory
+@AggregateFactory
 public class CartFactory {
     public Cart newCart(String username) {
         return newCart(1L, username);
