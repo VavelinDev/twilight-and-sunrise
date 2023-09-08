@@ -3,11 +3,12 @@ package com.vavelin.twilight.shop.cart.command.infrastructure.jpa;
 import com.vavelin.twilight.shop.cart.command.domain.GetNewestPriceListPort;
 import com.vavelin.twilight.shop.shared.valueobjects.Price;
 import com.vavelin.twilight.shop.spring.stereotypes.OutputAdapter;
+
 import java.math.BigDecimal;
 import java.util.Map;
 
 @OutputAdapter
-public class PriceListRepositoryJpaAdapter implements GetNewestPriceListPort {
+class PriceListRepositoryJpaAdapter implements GetNewestPriceListPort {
 
     public static final int PRICE_SCALE = 4;
 

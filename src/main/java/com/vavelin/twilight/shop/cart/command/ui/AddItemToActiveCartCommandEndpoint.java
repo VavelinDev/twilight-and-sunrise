@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @Validated
 @RequestMapping(AddItemToActiveCartCommandEndpoint.PATH)
-public class AddItemToActiveCartCommandEndpoint {
+class AddItemToActiveCartCommandEndpoint {
     public static final String PATH = "/carts/active";
 
     private final CommandBus commandBus;
@@ -30,20 +30,21 @@ public class AddItemToActiveCartCommandEndpoint {
     }
 
     @PutMapping
-    public void handle(@Valid @RequestBody
-                       AddItemToActiveCartCommandEndpoint.AddItemToActiveCartCommandPayload payload,
-                       @AuthenticationPrincipal UserDetails userDetails) {
+    void handle(@Valid @RequestBody
+                AddItemToActiveCartCommandPayload payload,
+                @AuthenticationPrincipal
+                UserDetails userDetails) {
         var username = userDetails.getUsername();
         var cartCommand = payload.toCommand(username);
         commandBus.dispatch(cartCommand);
     }
 
-    public record AddItemToActiveCartCommandPayload(
-        @NotNull
-        Long productId,
-        @NotNull
-        @Positive
-        Integer quantity
+    record AddItemToActiveCartCommandPayload(
+            @NotNull
+            Long productId,
+            @NotNull
+            @Positive
+            Integer quantity
     ) {
         AddItemToActiveCartCommand toCommand(String username) {
             return new AddItemToActiveCartCommand(username, productId, quantity);

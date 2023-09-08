@@ -7,7 +7,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @DomainService
-class CartPriceDomainService {
+public class CartPriceDomainService {
 
     private final GetNewestPriceListPort getNewestPriceListPort;
 

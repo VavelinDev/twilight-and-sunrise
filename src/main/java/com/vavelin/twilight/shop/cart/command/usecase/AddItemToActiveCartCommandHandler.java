@@ -7,7 +7,7 @@ import com.vavelin.twilight.shop.spring.stereotypes.CommandHandlerService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @CommandHandlerService
-public class AddItemToActiveCartCommandHandler implements
+class AddItemToActiveCartCommandHandler implements
     CommandHandler<AddItemToActiveCartCommand> {
 
     private final GetActiveCartPort getActiveCartPort;
@@ -15,7 +15,7 @@ public class AddItemToActiveCartCommandHandler implements
     private final CartFactory cartFactory;
 
     @Autowired
-    public AddItemToActiveCartCommandHandler(GetActiveCartPort getActiveCartPort,
+    AddItemToActiveCartCommandHandler(GetActiveCartPort getActiveCartPort,
                                              PersistCartPort persistCartPort,
                                              CartFactory cartFactory) {
         this.getActiveCartPort = getActiveCartPort;
