@@ -25,7 +25,7 @@ class AddItemToActiveCartCommandEndpoint {
     private final CommandBus commandBus;
 
     @Autowired
-    public AddItemToActiveCartCommandEndpoint(CommandBus commandBus) {
+    AddItemToActiveCartCommandEndpoint(CommandBus commandBus) {
         this.commandBus = commandBus;
     }
 
