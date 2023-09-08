@@ -11,7 +11,7 @@ public class CartPriceDomainService {
 
     private final GetNewestPriceListPort getNewestPriceListPort;
 
-    public CartPriceDomainService(GetNewestPriceListPort getNewestPriceListPort) {
+    CartPriceDomainService(GetNewestPriceListPort getNewestPriceListPort) {
         this.getNewestPriceListPort = getNewestPriceListPort;
     }
 
