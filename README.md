@@ -1,6 +1,10 @@
 # Twilight and Sunrise Architectures
 
-Depicting Hexagonal architecture in vivid colors.
+Hexagonal Architecture in vivid colors.
+
+Twilight Architecture |  Sunrise Architecture
+:--------------------:|:---------------------:
+![Twilight-Architecture.png](docs%2Fimages%2FTwilight-Architecture.png)  |  ![Sunrise-Architecture.png](docs%2Fimages%2FSunrise-Architecture.png)
 
 # Run it
 
