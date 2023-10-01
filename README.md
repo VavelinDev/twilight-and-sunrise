@@ -1,16 +1,10 @@
 # Twilight and Sunrise Architectures
 
-<style>
-table, th, td {
-   border: none!important;
-}
-</style>
-
-Hexagonal Architecture in vivid colors.
+**Hexagonal Architecture in vivid colors.**
 
 [//]: # (// @formatter:off)
 
-Twilight Architecture |  Sunrise Architecture
+🌅 Twilight Architecture | 🔆 Sunrise Architecture
 :--------------------:|:---------------------:
 ![Twilight-Architecture.png](docs%2Fimages%2FTwilight-Architecture.png)  |  ![Sunrise-Architecture.png](docs%2Fimages%2FSunrise-Architecture.png)
 
@@ -19,6 +13,23 @@ Twilight Architecture |  Sunrise Architecture
 The difference between these two architectures is that, in the Sunrise Architecture, the Domain Layer does not interact
 with the Port. This means that the Domain Layer does not declare any Ports in order to connect with the outside world (
 i.e., the Infrastructure).
+
+Table of Contents
+
+<!-- TOC -->
+* [Twilight and Sunrise Architectures](#twilight-and-sunrise-architectures)
+* [Run it](#run-it)
+* [Motivation and Inspiration](#motivation-and-inspiration)
+* [Layers](#layers)
+  * [User Interface (the Sky 🌠)](#user-interface-the-sky-)
+  * [Use Case (the Atmosphere 💨)](#use-case-the-atmosphere-)
+  * [Domain (The Sun ☀️)](#domain-the-sun-)
+  * [Port (The Sea 🌊)](#port-the-sea-)
+  * [Infrastructure (The Seabed 🤿)](#infrastructure-the-seabed-)
+* [Dependencies](#dependencies)
+  * [Example of the Twilight Architecture](#example-of-the-twilight-architecture)
+  * [Example of the Sunrise Architecture](#example-of-the-sunrise-architecture)
+<!-- TOC -->
 
 # Run it
 
