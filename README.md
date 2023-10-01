@@ -149,10 +149,13 @@ From the Sky to the bottom of the Sea.
    is the cleanest approach, and the separation and dependencies look exactly like in the original pictures. This means
    that the dependencies between layers only exist at the points where they contact each other (see below pictures).
 
-<div style="display: flex; flex-direction: row; height: 320pt; justify-content: space-between;">
-  <img src="docs/images/Twilight-Architecture.png" style="float: left" alt="twilight-architecture"/>
-  <img src="docs/images/Sunrise-Architecture.png" style="float: right" alt="twilight-architecture"/>
-</div>
+[//]: # (// @formatter:off)
+
+🌅 Twilight Architecture | 🔆 Sunrise Architecture
+:--------------------:|:---------------------:
+![Twilight-Architecture](docs%2Fimages%2FTwilight-Architecture.png)  |  ![Sunrise-Architecture](docs%2Fimages%2FSunrise-Architecture.png)
+
+[//]: # (// @formatter:on)
 
 ![Twilight-Architecture](docs/images/Twilight-Infrastructure-To-Port.png)
 
@@ -167,10 +170,13 @@ transfer objects to and from the Top Layer’s model.
 As a result, for instance, a repository adapter like `CartRepositoryJpaAdapter` queries the database, executes
 a `CartFactory`, and returns the `Cart` domain object.
 
-<div style="display: flex; flex-direction: row; height: 320pt; justify-content: space-between;">
-  <img src="docs/images/Twilight-Infrastructure-Dependencies.png" style="float: left" alt="twilight-architecture"/>
-  <img src="docs/images/Sunrise-Infrastructure-Dependencies.png" style="float: right" alt="twilight-architecture"/>
-</div>
+[//]: # (// @formatter:off)
+
+🌅 Twilight Architecture | 🔆 Sunrise Architecture
+:--------------------:|:---------------------:
+![Twilight-Infrastructure-Dependencies](docs/images/Twilight-Infrastructure-Dependencies.png)  |  ![Sunrise-Infrastructure-Dependencies](docs/images/Sunrise-Infrastructure-Dependencies.png)
+
+[//]: # (// @formatter:on)
 
 ![Twilight-Architecture](docs/images/Twilight-Infrastructure-To-Top-Layers.png)
 
