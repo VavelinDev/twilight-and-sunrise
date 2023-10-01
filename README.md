@@ -6,7 +6,7 @@
 
 🌅 Twilight Architecture | 🔆 Sunrise Architecture
 :--------------------:|:---------------------:
-![Twilight-Architecture.png](docs%2Fimages%2FTwilight-Architecture.png)  |  ![Sunrise-Architecture.png](docs%2Fimages%2FSunrise-Architecture.png)
+![Twilight-Architecture.png](docs/images/Twilight-Architecture.png)  |  ![Sunrise-Architecture.png](docs/images/Sunrise-Architecture.png)
 
 [//]: # (// @formatter:on)
 
@@ -153,7 +153,7 @@ From the Sky to the bottom of the Sea.
 
 🌅 Twilight Architecture | 🔆 Sunrise Architecture
 :--------------------:|:---------------------:
-![Twilight-Architecture](docs%2Fimages%2FTwilight-Architecture.png)  |  ![Sunrise-Architecture](docs%2Fimages%2FSunrise-Architecture.png)
+![Twilight-Architecture](docs/images/Twilight-Architecture.png)  |  ![Sunrise-Architecture](docs/images/Sunrise-Architecture.png)
 
 [//]: # (// @formatter:on)
 
