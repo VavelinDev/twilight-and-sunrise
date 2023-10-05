@@ -20,14 +20,14 @@ Table of Contents
 * [Twilight and Sunrise Architectures](#twilight-and-sunrise-architectures)
 * [Run it](#run-it)
 * [Motivation and Inspiration](#motivation-and-inspiration)
-* [Layers](#layers)
+* [Layers (Horizontal Slicing)](#layers-horizontal-slicing)
   * [User Interface (the Sky 🌠)](#user-interface-the-sky-)
   * [Use Case (the Atmosphere 💨)](#use-case-the-atmosphere-)
   * [Domain (The Sun ☀️)](#domain-the-sun-)
   * [Port (The Sea 🌊)](#port-the-sea-)
   * [Infrastructure (The Seabed 🤿)](#infrastructure-the-seabed-)
 * [Dependencies](#dependencies)
-  * [Example of the Twilight Architecture](#example-of-the-twilight-architecture)
+* [Example of the Twilight Architecture](#example-of-the-twilight-architecture)
   * [Example of the Sunrise Architecture](#example-of-the-sunrise-architecture)
 <!-- TOC -->
 
@@ -65,7 +65,7 @@ So, yes, there are two key drivers to make the Hexagonal more pleasant:
 Presented Architectures emphasize usage of Ports and Adapters (Horizontal Layering) + CQRS (Vertical Slicing)+ Domain
 Driven Design (in the heart / the Sun)
 
-# Layers
+# Layers (Horizontal Slicing)
 
 From the Sky to the bottom of the Sea.
 
@@ -181,7 +181,7 @@ a `CartFactory`, and returns the `Cart` domain object.
 ![Twilight-Architecture](docs/images/Twilight-Infrastructure-To-Top-Layers.png)
 
 
-## Example of the Twilight Architecture
+# Example of the Twilight Architecture
 
 In this architecture style the Infrastructure Layer is accessing the `Cart` and `CartFactory` in order to construct the object from the repository data and returns it to the Top Layers.
 
@@ -236,7 +236,7 @@ public interface GetNewestPriceListPort {}
 package com.vavelin.twilight.shop.cart.command.infrastructure.jpa;
 
 /** JPA belongs to the Infrastructure and does not leak to the higher Layers! */
-public class CartJpa
+public class CartJpa {}
 
 /** Infrastructure concretize Ports providing an actual implementation. */
 @Adapter
@@ -256,6 +256,6 @@ public class CartRepositoryJpaAdapter implements GetActiveCartPort, PersistCartP
 interface CartCrudRepository extends CrudRepository<CartJpa, Long> {}
 ```
 
-## Example of the Sunrise Architecture
+# Example of the Sunrise Architecture
 
 *-- TBD --* 
