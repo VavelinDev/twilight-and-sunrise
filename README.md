@@ -17,18 +17,20 @@ i.e., the Infrastructure).
 Table of Contents
 
 <!-- TOC -->
+
 * [Twilight and Sunrise Architectures](#twilight-and-sunrise-architectures)
 * [Run it](#run-it)
 * [Motivation and Inspiration](#motivation-and-inspiration)
 * [Layers (Horizontal Slicing)](#layers-horizontal-slicing)
-  * [User Interface (the Sky 🌠)](#user-interface-the-sky-)
-  * [Use Case (the Atmosphere 💨)](#use-case-the-atmosphere-)
-  * [Domain (The Sun ☀️)](#domain-the-sun-)
-  * [Port (The Sea 🌊)](#port-the-sea-)
-  * [Infrastructure (The Seabed 🤿)](#infrastructure-the-seabed-)
+    * [User Interface (the Sky 🌠)](#user-interface-the-sky-)
+    * [Use Case (the Atmosphere 💨)](#use-case-the-atmosphere-)
+    * [Domain (The Sun ☀️)](#domain-the-sun-)
+    * [Port (The Sea 🌊)](#port-the-sea-)
+    * [Infrastructure (The Seabed 🤿)](#infrastructure-the-seabed-)
 * [Dependencies](#dependencies)
 * [Example of the Twilight Architecture](#example-of-the-twilight-architecture)
-  * [Example of the Sunrise Architecture](#example-of-the-sunrise-architecture)
+    * [Example of the Sunrise Architecture](#example-of-the-sunrise-architecture)
+
 <!-- TOC -->
 
 # Run it
@@ -180,10 +182,16 @@ a `CartFactory`, and returns the `Cart` domain object.
 
 ![Twilight-Architecture](docs/images/Twilight-Infrastructure-To-Top-Layers.png)
 
+# Examples
 
-# Example of the Twilight Architecture
+In the both first examples the Infrastructure Layer is accessing the `Cart` and `CartFactory` (see pt 3.2.) in order to
+construct the object from the repository data and returns it to the Top Layers.
 
-In this architecture style the Infrastructure Layer is accessing the `Cart` and `CartFactory` in order to construct the object from the repository data and returns it to the Top Layers.
+## Example of the Twilight Architecture
+
+In this architecture style Ports can be declared in all the Top Layers including the Domain.
+The `CartPriceDomainService` leverages that fact thus it declares the dependency or rather requirement to be fulfilled
+by the outside world (the Infrastructure).
 
 ![Twilight-Code-Structure](docs/images/Twilight-Code-Structure.png)
 
@@ -193,23 +201,31 @@ In this architecture style the Infrastructure Layer is accessing the `Cart` and 
 package com.vavelin.twilight.shop.cart.command.ui;
 
 @RequestMapping("/carts")
-public class AddItemToCartCommandEndpoint {}
+public class AddItemToCartCommandEndpoint {
+}
 ```
 
 <p style="background-color: orange; font-weight: bold; padding: 4px">Use Case</p>
-
 
 ```java
 package com.vavelin.twilight.shop.cart.command.usecase;
 
 @CommandHandlerService
-public class AddItemToActiveCartCommandHandler implements CommandHandler<AddItemToActiveCartCommand> {}
+public class AddItemToActiveCartCommandHandler implements CommandHandler<AddItemToActiveCartCommand> {
+
+    AddItemToActiveCartCommandHandler(GetActiveCartPort getActiveCartPort,
+                                      PersistCartPort persistCartPort,
+                                      CartFactory cartFactory,
+                                      CartPriceDomainService cartPriceDomainService) {
+    }
+}
 
 public record AddItemToActiveCartCommand(
     String username,
     Long productId,
-    int quantity    
-) implements Command {}
+    int quantity
+) implements Command {
+}
 ```
 
 <p style="background-color: yellow; font-weight: bold; padding: 4px">Domain</p>
@@ -217,17 +233,22 @@ public record AddItemToActiveCartCommand(
 ```java
 package com.vavelin.twilight.shop.cart.command.domain;
 
-public class Cart {}
+public class Cart {
+}
 
 @DomainService
 public class CartPriceDomainService {
     /** The Domain Layer requires Port - this part makes the 🌅 Twilight Architecture. */
     private final GetNewestPriceListPort getNewestPriceListPort;
+
+    public CartPrice apply(Cart cart) {
+    }
 }
 
 /** As stated above - the Port does not have its own separate package 
  *  as it is no a physical layer. */
-public interface GetNewestPriceListPort {}
+public interface GetNewestPriceListPort {
+}
 ```
 
 <p style="background-color: violet; font-weight: bold; padding: 4px">Infrastructure</p>
@@ -236,7 +257,8 @@ public interface GetNewestPriceListPort {}
 package com.vavelin.twilight.shop.cart.command.infrastructure.jpa;
 
 /** JPA belongs to the Infrastructure and does not leak to the higher Layers! */
-public class CartJpa {}
+public class CartJpa {
+}
 
 /** Infrastructure concretize Ports providing an actual implementation. */
 @Adapter
@@ -253,9 +275,67 @@ public class CartRepositoryJpaAdapter implements GetActiveCartPort, PersistCartP
 }
 
 @Repository
-interface CartCrudRepository extends CrudRepository<CartJpa, Long> {}
+interface CartCrudRepository extends CrudRepository<CartJpa, Long> {
+}
 ```
 
-# Example of the Sunrise Architecture
+## Example of the Sunrise Architecture
 
-*-- TBD --* 
+As mentioned earlier, this architectural style closely resembles the Twilight Architecture, albeit with a significant
+distinction. The key difference lies in the relocation of all Ports (in this case, specifically the
+GetNewestPriceListPort) from the Domain Layer to the Use Case Layer. This strategic shift ensures that the Domain
+remains free of external dependencies, promoting a clean and encapsulated design. Consequently, Ports are exclusively
+utilized above the Domain Layer, effectively transferring the responsibility of interfacing to the Use Case Layer.
+
+![Sunrise-Code-Structure](docs/images/Sunrise-Code-Structure.png)
+
+Let's see the code that differs.
+
+<p style="background-color: orange; font-weight: bold; padding: 4px">Use Case</p>
+
+```java
+package com.vavelin.twilight.shop.cart.command.usecase;
+
+@CommandHandlerService
+public class AddItemToActiveCartCommandHandler implements CommandHandler<AddItemToActiveCartCommand> {
+
+    AddItemToActiveCartCommandHandler(GetActiveCartPort getActiveCartPort,
+                                      GetNewestPriceListPort getNewestPriceListPort,
+                                      PersistCartPort persistCartPort,
+                                      CartFactory cartFactory,
+                                      CartPriceDomainService cartPriceDomainService) {
+    }
+}
+
+public record AddItemToActiveCartCommand(
+    String username,
+    Long productId,
+    int quantity
+) implements Command {
+}
+```
+
+<p style="background-color: yellow; font-weight: bold; padding: 4px">Domain</p>
+
+```java
+package com.vavelin.twilight.shop.cart.command.domain;
+
+public class Cart {
+}
+
+@DomainService
+public class CartPriceDomainService {
+    public CartPrice apply(Cart cart, GetNewestPriceListPort.PriceList priceList) {
+    }
+}
+
+/** As stated above - the Port does not have its own separate package 
+ *  as it is no a physical layer. */
+public interface GetNewestPriceListPort {
+}
+```
+
+One can observe that the port has been shifted from the Domain Service to the Command Handler (Use Case), resulting in a
+more streamlined Domain (the core of the system) and more intricate Use Cases (the intelligence of the system). This
+strategic shift is a positive development, considering that the Domain is the critical layer that requires meticulous
+attention and care.
