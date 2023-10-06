@@ -283,7 +283,7 @@ interface CartCrudRepository extends CrudRepository<CartJpa, Long> {
 
 As mentioned earlier, this architectural style closely resembles the Twilight Architecture, albeit with a significant
 distinction. The key difference lies in the relocation of all Ports (in this case, specifically the
-GetNewestPriceListPort) from the Domain Layer to the Use Case Layer. This strategic shift ensures that the Domain
+`GetNewestPriceListPort`) from the Domain Layer to the Use Case Layer. This strategic shift ensures that the Domain
 remains free of external dependencies, promoting a clean and encapsulated design. Consequently, Ports are exclusively
 utilized above the Domain Layer, effectively transferring the responsibility of interfacing to the Use Case Layer.
 
