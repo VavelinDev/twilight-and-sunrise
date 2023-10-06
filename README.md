@@ -10,9 +10,9 @@
 
 [//]: # (// @formatter:on)
 
-The difference between these two architectures is that, in the Sunrise Architecture, the Domain Layer does not interact
+*The difference between these two architectures is that, in the Sunrise Architecture, the Domain Layer does not interact
 with the Port. This means that the Domain Layer does not declare any Ports in order to connect with the outside world (
-i.e., the Infrastructure).
+i.e., the Infrastructure).*
 
 Table of Contents
 
