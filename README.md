@@ -1,6 +1,6 @@
 # Twilight and Sunrise Architectures
 
-**Hexagonal Architecture in vivid colors.**
+**Beautiful and Easily Understandable Landscape of Hexagonal Architecture.**
 
 [//]: # (// @formatter:off)
 
