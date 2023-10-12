@@ -17,19 +17,21 @@ i.e., the Infrastructure).*
 Table of Contents
 
 <!-- TOC -->
+
 * [Twilight and Sunrise Architectures](#twilight-and-sunrise-architectures)
 * [Run it](#run-it)
 * [Motivation and Inspiration](#motivation-and-inspiration)
 * [Layers (Horizontal Slicing)](#layers-horizontal-slicing)
-  * [User Interface (the Sky 🌠)](#user-interface-the-sky-)
-  * [Use Case (the Atmosphere 💨)](#use-case-the-atmosphere-)
-  * [Domain (The Sun ☀️)](#domain-the-sun-)
-  * [Port (The Sea 🌊)](#port-the-sea-)
-  * [Infrastructure (The Seabed 🤿)](#infrastructure-the-seabed-)
+    * [User Interface (the Sky 🌠)](#user-interface-the-sky-)
+    * [Use Case (the Atmosphere 💨)](#use-case-the-atmosphere-)
+    * [Domain (The Sun ☀️)](#domain-the-sun-)
+    * [Port (The Sea 🌊)](#port-the-sea-)
+    * [Infrastructure (The Seabed 🤿)](#infrastructure-the-seabed-)
 * [Dependencies](#dependencies)
 * [Examples](#examples)
-  * [Example of the Twilight Architecture](#example-of-the-twilight-architecture)
-  * [Example of the Sunrise Architecture](#example-of-the-sunrise-architecture)
+    * [Example of the Twilight Architecture](#example-of-the-twilight-architecture)
+    * [Example of the Sunrise Architecture](#example-of-the-sunrise-architecture)
+
 <!-- TOC -->
 
 # Run it
@@ -225,6 +227,15 @@ public record AddItemToActiveCartCommand(
     int quantity
 ) implements Command {
 }
+
+public interface PersistCartPort extends Consumer<Cart> {
+    void accept(Cart cart);
+}
+
+public interface GetActiveCartPort extends Function<String, Optional<Cart>> {
+    Optional<Cart> apply(String username);
+}
+
 ```
 
 <p style="background-color: yellow; font-weight: bold; padding: 4px">Domain</p>
@@ -247,6 +258,7 @@ public class CartPriceDomainService {
 /** As stated above - the Port does not have its own separate package 
  *  as it is no a physical layer. */
 public interface GetNewestPriceListPort {
+    PriceList get();
 }
 ```
 
@@ -312,6 +324,18 @@ public record AddItemToActiveCartCommand(
     int quantity
 ) implements Command {
 }
+
+public interface GetNewestPriceListPort {
+    PriceList get();
+}
+
+public interface GetActiveCartPort extends Function<String, Optional<Cart>> {
+    Optional<Cart> apply(String username);
+}
+
+public interface PersistCartPort extends Consumer<Cart> {
+    void accept(Cart cart);
+}
 ```
 
 <p style="background-color: yellow; font-weight: bold; padding: 4px">Domain</p>
@@ -328,13 +352,75 @@ public class CartPriceDomainService {
     }
 }
 
-/** As stated above - the Port does not have its own separate package 
- *  as it is no a physical layer. */
-public interface GetNewestPriceListPort {
-}
 ```
 
 One can observe that the port has been shifted from the Domain Service to the Command Handler (Use Case), resulting in a
 more streamlined Domain (the core of the system) and more intricate Use Cases (the intelligence of the system). This
 strategic shift is a positive development, considering that the Domain is the critical layer that requires meticulous
 attention and care.
+
+## Infrastructure → Top Layers
+
+The examples above cover the situation where the Infrastructure Layer accesses objects from the Top Layers. This is
+often a conscious shortcut used. As a result, an implementation doesn't require translation objects (API contract) to
+communicate between the Infrastructure and Top Layers. However, complexity arises on the Infrastructure side as it
+becomes impacted by any changes happening in the Top Layers. The impact comes from the fact that the Infrastructure
+implements the Port interfaces which use the Top Layers' objects in their API. This is how:
+
+```java
+public interface GetNewestPriceListPort extends Supplier<GetNewestPriceListPort.PriceList> {
+    PriceList get();
+}
+
+public interface GetActiveCartPort extends Function<String, Optional<Cart>> {
+    Optional<Cart> apply(String username);
+}
+
+public interface PersistCartPort extends Consumer<Cart> {
+    void accept(Cart cart);
+}
+```
+
+As shown, when the Ports are implemented by the Infrastructure Layer, the Layer takes and returns the domain objects
+like `Cart`.
+
+To avoid this situation, the team may decide to introduce special transfer/translation/contract objects that flow
+between the Infrastructure and the Top Layers.
+
+## Infrastructure → Port
+
+In order to completely remove the dependency between what is below and above the Sea 🌊, one additional step is required.
+The step is to replace all the Top Layer specific objects in Ports with the pure Port API (contract).
+
+Although it isn't visible in the code (the repository), we can define the approach through the below code snippets.
+
+```java
+public interface GetNewestPriceListPort extends Supplier<GetNewestPriceListPort.PriceList> {
+    PriceList get();
+
+    /** Contract / API */
+    record PriceList(Map<Long, Price> priceByProduct) {
+    }
+}
+
+public interface GetActiveCartPort extends Function<String, Optional<GetActiveCartPort.ReadCartData>> {
+    Optional<ReadCartData> apply(String username);
+
+    /** Contract / API */
+    record ReadCartData(...) {
+    }
+}
+
+public interface PersistCartPort extends Consumer<PersistCartPort.CreateCartData> {
+    void accept(CreateCartData cart);
+
+    /** Contract / API */
+    record CreateCartData(...) {
+    }
+}
+```
+
+Now we have a clear Port API that clearly separates the Infrastructure from the Top Layers. With this maneuver, the
+Infrastructure also does not require the `CartFactory` instance, as it doesn't have to create `Cart` anymore.
+
+
