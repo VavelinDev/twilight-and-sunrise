@@ -17,21 +17,21 @@ i.e., the Infrastructure).*
 Table of Contents
 
 <!-- TOC -->
-
 * [Twilight and Sunrise Architectures](#twilight-and-sunrise-architectures)
 * [Run it](#run-it)
 * [Motivation and Inspiration](#motivation-and-inspiration)
 * [Layers (Horizontal Slicing)](#layers-horizontal-slicing)
-    * [User Interface (the Sky 🌠)](#user-interface-the-sky-)
-    * [Use Case (the Atmosphere 💨)](#use-case-the-atmosphere-)
-    * [Domain (The Sun ☀️)](#domain-the-sun-)
-    * [Port (The Sea 🌊)](#port-the-sea-)
-    * [Infrastructure (The Seabed 🤿)](#infrastructure-the-seabed-)
+  * [User Interface (the Sky 🌠)](#user-interface-the-sky-)
+  * [Use Case (the Atmosphere 💨)](#use-case-the-atmosphere-)
+  * [Domain (The Sun ☀️)](#domain-the-sun-)
+  * [Port (The Sea 🌊)](#port-the-sea-)
+  * [Infrastructure (The Seabed 🤿)](#infrastructure-the-seabed-)
 * [Dependencies](#dependencies)
 * [Examples](#examples)
-    * [Example of the Twilight Architecture](#example-of-the-twilight-architecture)
-    * [Example of the Sunrise Architecture](#example-of-the-sunrise-architecture)
-
+  * [Example of the Twilight Architecture](#example-of-the-twilight-architecture)
+  * [Example of the Sunrise Architecture](#example-of-the-sunrise-architecture)
+  * [Infrastructure → Top Layers](#infrastructure--top-layers)
+  * [Infrastructure → Port](#infrastructure--port)
 <!-- TOC -->
 
 # Run it
