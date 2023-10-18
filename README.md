@@ -65,8 +65,9 @@ So, yes, there are two key drivers to make the Hexagonal more pleasant:
 - A self-descriptive diagram that nicely depicts layers and how they are stacked.
 - Clear definitions of execution and dependency directions.
 
-Presented Architectures emphasize usage of Ports and Adapters (Horizontal Layering) + CQRS (Vertical Slicing)+ Domain
-Driven Design (in the heart / the Sun)
+The presented architectures emphasize the usage of Ports and Adapters (Horizontal Layering) + CQRS (Vertical Slicing) 
+\+ Domain-Driven Design (at the core / center). Although the main focus of the article is to redefine the Hexagon into 
+something less abstract.
 
 # Layers (Horizontal Slicing)
 
