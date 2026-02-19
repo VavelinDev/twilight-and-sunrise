@@ -6,11 +6,10 @@ import dev.vavelin.sunrise.shop.cart.command.domain.Cart;
 import dev.vavelin.sunrise.shop.cart.command.domain.CartFactory;
 import dev.vavelin.sunrise.shop.cart.command.domain.CartPrice;
 import dev.vavelin.sunrise.shop.cart.command.domain.CartPriceDomainService;
-import org.springframework.beans.factory.annotation.Autowired;
 
 @CommandHandlerService
 class AddItemToActiveCartCommandHandler implements
-    CommandHandler<AddItemToActiveCartCommand> {
+        CommandHandler<AddItemToActiveCartCommand> {
 
     private final GetActiveCartPort getActiveCartPort;
     private final GetNewestPriceListPort getNewestPriceListPort;
@@ -18,13 +17,11 @@ class AddItemToActiveCartCommandHandler implements
     private final CartFactory cartFactory;
     private final CartPriceDomainService cartPriceDomainService;
 
-
-    @Autowired
     AddItemToActiveCartCommandHandler(GetActiveCartPort getActiveCartPort,
-                                      GetNewestPriceListPort getNewestPriceListPort,
-                                      PersistCartPort persistCartPort,
-                                      CartFactory cartFactory,
-                                      CartPriceDomainService cartPriceDomainService) {
+            GetNewestPriceListPort getNewestPriceListPort,
+            PersistCartPort persistCartPort,
+            CartFactory cartFactory,
+            CartPriceDomainService cartPriceDomainService) {
         this.getActiveCartPort = getActiveCartPort;
         this.getNewestPriceListPort = getNewestPriceListPort;
         this.persistCartPort = persistCartPort;
@@ -38,8 +35,7 @@ class AddItemToActiveCartCommandHandler implements
         final Long productId = command.productId();
         final int quantity = command.quantity();
 
-        final Cart loadedCart =
-            getActiveCartPort.apply(username)
+        final Cart loadedCart = getActiveCartPort.apply(username)
                 .orElseGet(() -> cartFactory.newCart(username));
 
         final Cart updatedCart = loadedCart.addProductToCart(productId, quantity);
@@ -48,7 +44,7 @@ class AddItemToActiveCartCommandHandler implements
 
         final CartPrice cartPrice = cartPriceDomainService.apply(updatedCart, priceList);
 
-        // TODO: do something with recalculated prices
+        // SHOWCASE: cartPrice could be stored, logged, or returned to the caller
 
         persistCartPort.accept(updatedCart);
     }

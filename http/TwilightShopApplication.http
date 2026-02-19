@@ -2,5 +2,5 @@ PUT http://user:password@localhost:8080/carts/active
 Content-Type: application/json
 
 {
-  "productId": 10, "quantity": 1
+  "productId": 1, "quantity": 1
 }

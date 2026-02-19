@@ -34,7 +34,14 @@ Table of Contents
   * [Infrastructure → Port](#infrastructure--port)
 <!-- TOC -->
 
+# Prerequisites
+
+* **Java 17** or later
+* No external database required — the project uses an **H2 in-memory database**
+
 # Run it
+
+The default entry point is `SunriseShopApplication` (the Sunrise variant). Both architectures coexist in the same codebase.
 
 ```shell
 ./gradlew bootRun
@@ -47,13 +54,15 @@ PUT http://user:password@localhost:8080/carts/active
 Content-Type: application/json
 
 {
-  "productId": 10, "quantity": 1
+  "productId": 1, "quantity": 1
 }
 ```
 
+Expected response: **HTTP 200 OK** with an empty body.
+
 # Motivation and Inspiration
 
-Whereas the Hexagonal Architecture is well-grounded, We still find some room to make things more precise. It is also
+Whereas the Hexagonal Architecture is well-grounded, we still find some room to make things more precise. It is also
 relatively hard to imagine the layers in abstract diagrams like Hexagon, Onion, or Port and Adapters (which is, nomen
 omen, the best name for the Hexagonal Architecture).
 
@@ -62,11 +71,11 @@ who are new to Hexagonal Architecture. Furthermore, there is a lack of clear gui
 
 So, yes, there are two key drivers to make the Hexagonal more pleasant:
 
-- A self-descriptive diagram that nicely depicts layers and how they are stacked.
-- Clear definitions of execution and dependency directions.
+* A self-descriptive diagram that nicely depicts layers and how they are stacked.
+* Clear definitions of execution and dependency directions.
 
-The presented architectures emphasize the usage of Ports and Adapters (Horizontal Layering) + CQRS (Vertical Slicing) 
-\+ Domain-Driven Design (at the core / center). Although the main focus of the article is to redefine the Hexagon into 
+The presented architectures emphasize the usage of Ports and Adapters (Horizontal Layering) + CQRS (Vertical Slicing)
+\+ Domain-Driven Design (at the core / center). Although the main focus of the article is to redefine the Hexagon into
 something less abstract.
 
 # Layers (Horizontal Slicing)
@@ -75,67 +84,67 @@ From the Sky to the bottom of the Sea.
 
 ## User Interface (the Sky 🌠)
 
-- Exposes API to the outside world (REST, SOAP, TCP, etc)
-- Sees only the Use Case layer and cannot access the Domain
-- Calls use cases using either a direct dependency on a Use Case service or utilizing abstractions (Ports and Adapters
+* Exposes API to the outside world (REST, SOAP, TCP, etc)
+* Sees only the Use Case layer and cannot access the Domain
+* Calls use cases using either a direct dependency on a Use Case service or utilizing abstractions (Ports and Adapters
   from the Hexagonal Architecture). The Use Case (business services) usually has only one implementation thus breaking
   them into the implementation and the interface (Port) introduce more complications than benefits (one may remember
   naming convention like *CartService* and *CartServiceImpl*). Twilight and Sunrise Architectures do not impose “ports
   and adapters“ on the driving side (interface side). This decision is on you and here a general rule works - Do you
   need an interface to every Application Service implementation and why?
-- Can define Ports (Interfaces) to be satisfied (provided) by the Infrastructure (e.g. Need of a REST call to perform
+* Can define Ports (Interfaces) to be satisfied (provided) by the Infrastructure (e.g. Need of a REST call to perform
   some validations, Access a session storage)
-- Visible Layers: Use Case
-- Example Artifacts: `AddItemToCartCommandEndpoint`(or AddItemToCartController), `AddItemToCartPayloadValidator` (e.g.
+* Visible Layers: Use Case
+* Example Artifacts: `AddItemToCartCommandEndpoint`(or AddItemToCartController), `AddItemToCartPayloadValidator` (e.g.
   Spring MVC Validators), `AddItemToCartCommandPayload`
 
 ## Use Case (the Atmosphere 💨)
 
-- Also known as the Application Service Layer (DDD) or the Command Handler Layer (CQRS)
-- Represents a direct definition of the business Use Cases (e.g. *“As a User I want to Add an Item to the Cart so
+* Also known as the Application Service Layer (DDD) or the Command Handler Layer (CQRS)
+* Represents a direct definition of the business Use Cases (e.g. *“As a User I want to Add an Item to the Cart so
   that…”*)
-- Orchestrates the logic utilizing the Infrastructure (through Ports) and Domain objects (Domain Services and Aggregate
+* Orchestrates the logic utilizing the Infrastructure (through Ports) and Domain objects (Domain Services and Aggregate
   Roots)
-- Can define Ports (Interfaces) to be satisfied (provided) by the Infrastructure
-- Visible Layers: Domain
-- Example Artifacts: `AddItemToActiveCartCommand`, `AddItemToActiveCartCommandHandler`(in the CQRS, can be also
+* Can define Ports (Interfaces) to be satisfied (provided) by the Infrastructure
+* Visible Layers: Domain
+* Example Artifacts: `AddItemToActiveCartCommand`, `AddItemToActiveCartCommandHandler`(in the CQRS, can be also
   AddItemToCartUseCase or AddItemToCartApplicationService)
 
 ## Domain (The Sun ☀️)
 
-- Domain as we know it from the DDD - it is the 💛 of the business!
-- In the 🌅 Twilight Architecture the Domain is aware of Ports and can communicate with the Infrastructure through them
-- In the 🔆 Sunrise Architecture the Domain is not aware of ports. All the communication though ports is moved to the Use
+* Domain as we know it from the DDD - it is the 💛 of the business!
+* In the 🌅 Twilight Architecture the Domain is aware of Ports and can communicate with the Infrastructure through them
+* In the 🔆 Sunrise Architecture the Domain is not aware of ports. All the communication through ports is moved to the Use
   Case layer. Cleaner version of the Twilight Architecture.
-- Can define Ports (Interfaces) to be satisfied (provided) by the Infrastructure
-- Visible Layers: None
-- Example Artifacts: `Cart`, `CartItem`, `CartItemAddedEvent` `CartFactory` `CartPriceDomainService`
+* Can define Ports (Interfaces) to be satisfied (provided) by the Infrastructure **(Twilight Architecture only)**
+* Visible Layers: None
+* Example Artifacts: `Cart`, `CartItem`, `CartItemAddedEvent` `CartFactory` `CartPriceDomainService`
 
 ## Port (The Sea 🌊)
 
-- A requirement / API that must be provided by the infrastructure
-- Ports stand for the gates to the Infrastructure world (SQL, Queues, HTTP, etc)
-- Is implemented as an interface together with its input / output objects (contract / API objects)
-- All layers can demand some help from infrastructure:
-    - User Interface - can connect to logging / metrics infrastructure
-    - Use Case - wants to load and save domain entities from a repository
-    - Domain - could send notifications or call required resources (e.g. repositories). This actions are moved up to the
+* A requirement / API that must be provided by the infrastructure
+* Ports stand for the gates to the Infrastructure world (SQL, Queues, HTTP, etc)
+* Is implemented as an interface together with its input / output objects (contract / API objects)
+* All layers can demand some help from infrastructure:
+  * User Interface - can connect to logging / metrics infrastructure
+  * Use Case - wants to load and save domain entities from a repository
+  * Domain - could send notifications or call required resources (e.g. repositories). This actions are moved up to the
       User Case level in the Sunrise Architecture. This is the only difference between those two styles - whether the
       Domain can or cannot leverage infrastructure’s capabilities.
-- Concrete implementations of ports are delivered by the Infrastructure layer
-- Visible Layers: All
-- Example Artifacts: `GetNewestPriceListPort` `PersistCartPort` `GetActiveCartPort`
+* Concrete implementations of ports are delivered by the Infrastructure layer
+* Visible Layers: All
+* Example Artifacts: `GetNewestPriceListPort` `PersistCartPort` `GetActiveCartPort`
 
 ## Infrastructure (The Seabed 🤿)
 
-- Infrastructure implements Ports satisfying requirements declared by the higher layers (above the Port)
-- Infrastructure implements all the complexity related to the concrete infrastructure problems (e.g. SQL queries, HTTP
+* Infrastructure implements Ports satisfying requirements declared by the higher layers (above the Port)
+* Infrastructure implements all the complexity related to the concrete infrastructure problems (e.g. SQL queries, HTTP
   connections, JMS or Kafka Producers)
-- Is not visible by UI, UC and Domain Layers
-- Sees and can access all what’s above (objects from UI, UC and Domain)
-- Interacts with the higher layers only through the Port
-- Visible Layers: User Interface, User Case, Domain
-- Example Artifacts: `CartJpa`, `CartRepositoryJpaAdapter` `PriceListRepositoryJpaAdapter` `CartCrudRepository`
+* Is not visible by UI, UC and Domain Layers
+* Sees and can access all what’s above (objects from UI, UC and Domain)
+* Interacts with the higher layers only through the Port
+* Visible Layers: User Interface, User Case, Domain
+* Example Artifacts: `CartJpa`, `CartRepositoryJpaAdapter` `PriceListRepositoryJpaAdapter` `CartCrudRepository`
 
 # Dependencies
 
@@ -197,7 +206,7 @@ by the outside world (the Infrastructure).
 
 ![Twilight-Code-Structure](docs/images/Twilight-Code-Structure.png)
 
-<p style="background-color: tomato; font-weight: bold; padding: 4px">User Interface</p>
+### 🟥 User Interface
 
 ```java
 package com.vavelin.twilight.shop.cart.command.ui;
@@ -207,7 +216,7 @@ public class AddItemToCartCommandEndpoint {
 }
 ```
 
-<p style="background-color: orange; font-weight: bold; padding: 4px">Use Case</p>
+### 🟧 Use Case
 
 ```java
 package com.vavelin.twilight.shop.cart.command.usecase;
@@ -239,7 +248,7 @@ public interface GetActiveCartPort extends Function<String, Optional<Cart>> {
 
 ```
 
-<p style="background-color: yellow; font-weight: bold; padding: 4px">Domain</p>
+### 🟨 Domain
 
 ```java
 package com.vavelin.twilight.shop.cart.command.domain;
@@ -257,13 +266,13 @@ public class CartPriceDomainService {
 }
 
 /** As stated above - the Port does not have its own separate package 
- *  as it is no a physical layer. */
+ *  as it is not a physical layer. */
 public interface GetNewestPriceListPort {
     PriceList get();
 }
 ```
 
-<p style="background-color: violet; font-weight: bold; padding: 4px">Infrastructure</p>
+### 🟪 Infrastructure
 
 ```java
 package com.vavelin.twilight.shop.cart.command.infrastructure.jpa;
@@ -303,7 +312,7 @@ utilized above the Domain Layer, effectively transferring the responsibility of 
 
 Let's see the code that differs.
 
-<p style="background-color: orange; font-weight: bold; padding: 4px">Use Case</p>
+### 🟧 Use Case
 
 ```java
 package com.vavelin.twilight.shop.cart.command.usecase;
@@ -339,7 +348,7 @@ public interface PersistCartPort extends Consumer<Cart> {
 }
 ```
 
-<p style="background-color: yellow; font-weight: bold; padding: 4px">Domain</p>
+### 🟨 Domain
 
 ```java
 package com.vavelin.twilight.shop.cart.command.domain;
@@ -423,5 +432,3 @@ public interface PersistCartPort extends Consumer<PersistCartPort.CreateCartData
 
 Now we have a clear Port API that clearly separates the Infrastructure from the Top Layers. With this maneuver, the
 Infrastructure also does not require the `CartFactory` instance, as it doesn't have to create `Cart` anymore.
-
-

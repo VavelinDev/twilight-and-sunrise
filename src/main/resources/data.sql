@@ -1,1 +1,1 @@
-insert into cart (id, username, active) values (1, 'admin', 1);
+insert into cart (id, username, active) values (1, 'admin', TRUE);

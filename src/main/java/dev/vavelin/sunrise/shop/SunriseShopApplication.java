@@ -7,7 +7,7 @@ import dev.vavelin.framework.shared.cqrs.command.SyncCommandBus;
 import java.util.Collection;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -25,10 +25,8 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
 
-@SpringBootApplication(
-    exclude = {SecurityAutoConfiguration.class},
-    scanBasePackages = {"dev.vavelin.sunrise", "dev.vavelin.framework"}
-)
+@SpringBootApplication(scanBasePackages = { "dev.vavelin.sunrise",
+        "dev.vavelin.framework" })
 public class SunriseShopApplication {
 
     public static void main(String[] args) {
@@ -40,9 +38,9 @@ public class SunriseShopApplication {
     public static class BeanConfiguration {
 
         @Bean
+        @SuppressWarnings("unchecked") // Safe: Spring guarantees CommandHandler type consistency
         public CommandBus commandBus(
-            Collection<? extends CommandHandler<? extends Command>> commandHandlers
-        ) {
+                Collection<? extends CommandHandler<? extends Command>> commandHandlers) {
             return new SyncCommandBus((Collection<CommandHandler<Command>>) commandHandlers);
         }
 
@@ -66,30 +64,27 @@ public class SunriseShopApplication {
         @Bean
         public InMemoryUserDetailsManager userDetailsService(PasswordEncoder passwordEncoder) {
             UserDetails user = User.withUsername("user")
-                .password(passwordEncoder.encode("password"))
-                .roles("USER")
-                .build();
+                    .password(passwordEncoder.encode("password"))
+                    .roles("USER")
+                    .build();
 
             UserDetails admin = User.withUsername("admin")
-                .password(passwordEncoder.encode("admin"))
-                .roles("USER", "ADMIN")
-                .build();
+                    .password(passwordEncoder.encode("admin"))
+                    .roles("USER", "ADMIN")
+                    .build();
 
             return new InMemoryUserDetailsManager(user, admin);
         }
 
         @Bean
         public SecurityFilterChain filterChain(HttpSecurity http,
-                                               AuthenticationManager authenticationManager)
-            throws Exception {
-            http.csrf(it -> it.disable())
-                .authorizeRequests()
-                .anyRequest()
-                .authenticated()
-                .and()
-                .authenticationManager(authenticationManager)
-                .httpBasic(it -> {
-                });
+                AuthenticationManager authenticationManager)
+                throws Exception {
+            http.csrf(csrf -> csrf.disable())
+                    .authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
+                    .authenticationManager(authenticationManager)
+                    .httpBasic(httpBasic -> {
+                    });
             return http.build();
         }
 
@@ -101,7 +96,7 @@ public class SunriseShopApplication {
         @Bean
         @Primary
         public AuthenticationManager authenticationManager(
-            AuthenticationConfiguration authenticationConfiguration) throws Exception {
+                AuthenticationConfiguration authenticationConfiguration) throws Exception {
             return authenticationConfiguration.getAuthenticationManager();
         }
 

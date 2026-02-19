@@ -20,22 +20,23 @@ public final class Cart {
 
     private final String username;
 
-    private boolean active = true;
+    private final boolean active;
 
     private final Map<Long, CartItem> cartItems;
 
     Cart(long id, String username) {
-        this(id, username, Collections.emptySet());
+        this(id, username, true, Collections.emptySet());
     }
 
     Cart(long id,
-         String username,
-         Collection<CartItem> cartItems) {
+            String username,
+            boolean active,
+            Collection<CartItem> cartItems) {
         this.id = id;
         this.username = username;
+        this.active = active;
         this.cartItems = Map.copyOf(cartItems.stream()
-            .collect(Collectors.toMap(CartItem::productId, Function.identity()))
-        );
+                .collect(Collectors.toMap(CartItem::productId, Function.identity())));
     }
 
     public Long getId() {
@@ -47,16 +48,10 @@ public final class Cart {
     }
 
     public Cart addProductToCart(Long productId, int quantity) {
-        Map<Long, CartItem> newCartItems = new HashMap<>(cartItems.size());
-        // When the cart item exists in the cart simply increase the quantity
-        for (Map.Entry<Long, CartItem> cartItemEntry : cartItems.entrySet()) {
-            if (cartItemEntry.getKey().equals(productId)) {
-                newCartItems.put(productId, cartItemEntry.getValue().addQuantity(quantity));
-            } else {
-                newCartItems.put(cartItemEntry.getKey(), cartItemEntry.getValue());
-            }
-        }
-        return new Cart(id, username, newCartItems.values());
+        Map<Long, CartItem> newCartItems = new HashMap<>(cartItems);
+        newCartItems.merge(productId, new CartItem(productId, quantity),
+                (existing, added) -> existing.addQuantity(added.quantity()));
+        return new Cart(id, username, active, newCartItems.values());
     }
 
     public Optional<CartItem> getItem(Long productId) {
@@ -72,9 +67,8 @@ public final class Cart {
     }
 
     public record CartItem(
-        Long productId,
-        int quantity
-    ) {
+            Long productId,
+            int quantity) {
 
         CartItem addQuantity(int quantity) {
             return new CartItem(productId, quantity + this.quantity);

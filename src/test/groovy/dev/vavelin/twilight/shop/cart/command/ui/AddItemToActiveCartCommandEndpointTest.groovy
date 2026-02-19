@@ -2,8 +2,10 @@ package dev.vavelin.twilight.shop.cart.command.ui
 
 
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.boot.test.web.client.TestRestTemplate
-import org.springframework.boot.test.web.server.LocalServerPort
+import org.springframework.core.env.Environment
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.test.web.reactive.server.WebTestClient
+import static org.springframework.web.reactive.function.client.ExchangeFilterFunctions.basicAuthentication
 import org.springframework.http.*
 import spock.lang.Specification
 
@@ -22,42 +24,44 @@ class AddItemToActiveCartCommandEndpointTest extends Specification {
             }
     """
 
-    @LocalServerPort
-    private int port
 
-    private TestRestTemplate restTemplate
+
+    @Autowired
+    private Environment environment
+
+    private WebTestClient webTestClient
 
     private String validCartUrl;
 
     def setup() {
-        validCartUrl = testUrl(AddItemToActiveCartCommandEndpoint.PATH)
-        restTemplate = new TestRestTemplate("admin", "admin")
+        def port = environment.getProperty("local.server.port")
+        validCartUrl = "http://localhost:" + port + AddItemToActiveCartCommandEndpoint.PATH
+        webTestClient = WebTestClient.bindToServer().baseUrl(validCartUrl)
+                .filter(basicAuthentication("admin", "admin")).build()
     }
 
     def "Should add a valid product to the active cart"() {
         when:
-        def httpHeaders = new HttpHeaders()
-        httpHeaders.setContentType(MediaType.APPLICATION_JSON)
-        def validPayload = new HttpEntity<String>(VALID_PAYLOAD, httpHeaders)
-        def result = restTemplate.exchange(validCartUrl, HttpMethod.PUT, validPayload, Void.class)
+        def result = webTestClient.put().uri(validCartUrl)
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(VALID_PAYLOAD)
+                .exchange()
 
         then:
-        result.statusCode == HttpStatus.OK
+        result.expectStatus().isOk()
     }
 
     def "Should not add an invalid product to the active cart"() {
         when:
-        def httpHeaders = new HttpHeaders()
-        httpHeaders.setContentType(MediaType.APPLICATION_JSON)
-        def invalidPayload = new HttpEntity<String>(INVALID_PAYLOAD, httpHeaders)
-        def result = restTemplate.exchange(validCartUrl, HttpMethod.PUT, invalidPayload, Void.class)
+        def result = webTestClient.put().uri(validCartUrl)
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(INVALID_PAYLOAD)
+                .exchange()
 
         then:
-        result.statusCode == HttpStatus.BAD_REQUEST
+        result.expectStatus().isBadRequest()
     }
 
-    def testUrl(String uri) {
-        return "http://localhost:" + port + uri
-    }
+
 
 }
