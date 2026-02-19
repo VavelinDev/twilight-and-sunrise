@@ -2,6 +2,10 @@
 
 **Beautiful and Easily Understandable Landscape of Hexagonal Architecture.**
 
+![Java](https://img.shields.io/badge/Java-17-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white) ![Spring Boot](https://img.shields.io/badge/Spring_Boot-4.0.2-6DB33F?style=for-the-badge&logo=spring-boot&logoColor=white) ![Gradle](https://img.shields.io/badge/Gradle-02303A?style=for-the-badge&logo=gradle&logoColor=white) ![Spock](https://img.shields.io/badge/Spock-Framework-E4002B?style=for-the-badge) ![Architecture](https://img.shields.io/badge/Architecture-Hexagonal-8A2BE2?style=for-the-badge)
+
+![GitHub last commit](https://img.shields.io/github/last-commit/VavelinDev/twilight-shop?style=for-the-badge&logo=github) ![GitHub stars](https://img.shields.io/github/stars/VavelinDev/twilight-shop?style=for-the-badge&logo=github) ![GitHub forks](https://img.shields.io/github/forks/VavelinDev/twilight-shop?style=for-the-badge&logo=github) ![GitHub issues](https://img.shields.io/github/issues/VavelinDev/twilight-shop?style=for-the-badge&logo=github)
+
 [//]: # (// @formatter:off)
 
 🌅 Twilight Architecture | 🔆 Sunrise Architecture
